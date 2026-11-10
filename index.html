@@ -127,4 +127,25 @@
 </div>
 
 
+<script>
+(function () {
+  function finishLoading() {
+    var l = document.getElementById('loading');
+    if (l && !l.classList.contains('done')) {
+      l.classList.add('done');
+      var ms = document.getElementById('model-status');
+      if (ms && ms.textContent.indexOf('Загрузка') !== -1) ms.textContent = 'Модель загружена';
+    }
+  }
+  var tries = 0;
+  var iv = setInterval(function () {
+    var v = document.getElementById('loading-value');
+    tries++;
+    if (window.__SCENE_READY__ || (v && v.textContent.trim() === '100%') || tries > 2400) {
+      clearInterval(iv);
+      setTimeout(finishLoading, 3000);
+    }
+  }, 100);
+})();
+</script>
 </body></html>
