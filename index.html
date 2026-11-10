@@ -6,8 +6,8 @@
 <meta name="description" content="Интерактивная 3D-демонстрация многофункционального спортивно-образовательного комплекса А9 Арена."/>
 <title>А9 Арена · 3D</title>
 <link rel="preload" href="./assets/A9_Arena_Hero.png" as="image"/>
-  <script type="module" crossorigin="" src="./assets/index-x0-_fsx1.js"></script>
-  <link rel="stylesheet" crossorigin="" href="./assets/index-C2z8SIBk.css"/>
+  <script type="module" crossorigin="" src="./assets/index-Cr8ioqKq.js"></script>
+  <link rel="stylesheet" crossorigin="" href="./assets/index-B1az6aeA.css"/>
 <script src="https://www.kimi.ai/sdk-seed.js" defer="" data-kimi-disable-watermark="false" data-kimi-analytics="true" data-kimi-website-id="1a1c28f0-44e2-8e2a-8000-0000d297e6d8" data-kimi-website-env="published"></script></head>
 <body>
 <div id="app">
@@ -17,12 +17,11 @@
 
   <header class="topbar">
     <div class="project-meta"><span>А9 АРЕНА</span><span class="meta-divider"></span><span>Истра · Покровское</span></div>
-    <nav class="top-actions" aria-label="Файлы проекта">
-      <a class="text-action" download="A9_Arena.glb" href="./assets/A9_Arena.glb" title="Скачать модель GLB">GLB</a>
-      <a class="download-action" download="A9_Arena.blend" href="./assets/A9_Arena.blend">
-        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3v12m0 0 4-4m-4 4-4-4M5 17v3h14v-3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg>
-        <span>Blender</span>
-      </a>
+    <nav class="top-actions" aria-label="Данные проекта">
+      <button id="budget-btn" class="budget-action" type="button" aria-haspopup="dialog" aria-controls="budget-dialog">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 19V9m5 10V5m6 14v-7m5 7V3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"></path></svg>
+        <span>Общий бюджет</span>
+      </button>
     </nav>
   </header>
 
@@ -53,6 +52,11 @@
       <div><dt id="object-floors-label">Этажность</dt><dd id="object-floors"></dd></div>
       <div><dt id="object-footprint-label">Площадь застройки</dt><dd id="object-footprint"></dd></div>
     </dl>
+    <div class="object-budget">
+      <div class="object-budget-main"><span>СМР · текущие цены</span><strong id="object-budget-current"></strong></div>
+      <div class="object-budget-future"><span>I кв. 2027</span><span id="object-budget-future"></span></div>
+      <div id="object-budget-variant" class="object-budget-variant" hidden=""></div>
+    </div>
   </aside>
 
   <section class="project-caption" aria-labelledby="project-title">
@@ -67,7 +71,7 @@
     <button class="view-button" type="button" data-view="wellness" aria-pressed="false" aria-label="Оздоровительный комплекс: бассейн, фитнес-центр, медицинский центр" title="Оздоровительный комплекс: бассейн, фитнес-центр, медицинский центр">Оздоровительный</button>
     <button class="view-button" type="button" data-view="hotel" aria-pressed="false" aria-label="Гостиница 4 звезды с рестораном" title="Гостиница 4* с рестораном">Гостиница 4*</button>
     <button class="view-button" type="button" data-view="apart" aria-pressed="false">Апарт-отель</button>
-    <button class="view-button" type="button" data-view="thermal" aria-pressed="false">Термальный комплекс</button>
+    <button class="view-button" type="button" data-view="thermal" aria-pressed="false">Банный комплекс</button>
     <button class="view-button" type="button" data-view="padel" aria-pressed="false">Падел-центр</button>
     <button class="view-button" type="button" data-view="parking" aria-pressed="false">Подземный паркинг</button>
     <button class="view-button" type="button" data-view="water" aria-pressed="false" aria-label="Подземный водозаборный узел" title="Подземный водозаборный узел">Водозаборный узел</button>
@@ -80,7 +84,41 @@
 
   <div id="loading" class="loading" role="status" aria-live="polite"><span id="loading-label">Подготовка 3D-сцены</span><span id="loading-value">0%</span><div class="loading-track"><div id="loading-bar"></div></div></div>
   <div id="toast" class="toast" role="status" aria-live="polite"></div>
-  <div id="error" class="error-panel" hidden=""><strong>3D-сцена недоступна</strong><p>Можно скачать исходник для Blender или модель GLB по ссылкам выше.</p></div>
+  <div id="error" class="error-panel" hidden=""><strong>3D-сцена недоступна</strong><p>Попробуйте обновить страницу или открыть сайт в другом браузере.</p></div>
+
+  <dialog id="budget-dialog" class="budget-dialog" aria-labelledby="budget-title">
+    <div class="budget-shell">
+      <header class="budget-header">
+        <div><h2 id="budget-title">Бюджет проекта</h2><p>СМР и проектная документация · млн руб. с НДС</p></div>
+        <button id="budget-close" class="budget-close" type="button" aria-label="Закрыть бюджет проекта">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"></path></svg>
+        </button>
+      </header>
+      <div class="budget-scroll">
+        <section class="budget-selector" aria-label="Вариант каркаса ледового комплекса">
+          <div class="budget-section-heading"><h3>Каркас ледового комплекса</h3><span>3 варианта</span></div>
+          <div class="budget-variants" role="group" aria-label="Выберите вариант каркаса">
+            <button class="budget-variant active" type="button" data-budget-variant="combined" aria-pressed="true"><span>Комбинированный</span><small>16–19 месяцев</small><strong data-variant-total="combined"></strong></button>
+            <button class="budget-variant" type="button" data-budget-variant="metal" aria-pressed="false"><span>Металлокаркас</span><small>14–16 месяцев</small><strong data-variant-total="metal"></strong></button>
+            <button class="budget-variant" type="button" data-budget-variant="concrete" aria-pressed="false"><span>Железобетон</span><small>20–24 месяца</small><strong data-variant-total="concrete"></strong></button>
+          </div>
+        </section>
+        <dl class="budget-summary">
+          <div><dt>СМР · текущие цены</dt><dd id="budget-total-current"></dd><span>млн руб. с НДС</span></div>
+          <div><dt>СМР · I кв. 2027</dt><dd id="budget-total-future"></dd><span>млн руб. с НДС</span></div>
+          <div><dt>Проектная документация</dt><dd id="budget-total-docs"></dd><span>млн руб. с НДС</span></div>
+        </dl>
+        <section class="budget-table" aria-label="Детализация бюджета по объектам">
+          <div class="budget-table-head"><span>Объект</span><span>Текущие цены</span><span>I кв. 2027</span></div>
+          <div id="budget-breakdown"></div>
+        </section>
+      </div>
+      <footer class="budget-grand-total">
+        <div><strong>Всего с проектной документацией</strong><span>СМР + ПД и РД · млн руб. с НДС</span></div>
+        <div class="budget-grand-values"><span><small>Текущие цены</small><strong id="budget-grand-current"></strong></span><span><small>I кв. 2027</small><strong id="budget-grand-future"></strong></span></div>
+      </footer>
+    </div>
+  </dialog>
 </div>
 
 
