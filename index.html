@@ -1,14 +1,16 @@
-<!DOCTYPE html><html lang="ru"><head>
-<meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1"/>
-<meta name="theme-color" content="#17211f"/>
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=&#39;http://www.w3.org/2000/svg&#39; viewBox=&#39;0 0 32 32&#39;%3E%3Crect width=&#39;32&#39; height=&#39;32&#39; rx=&#39;7&#39; fill=&#39;%2317211f&#39;/%3E%3Ctext x=&#39;16&#39; y=&#39;21&#39; text-anchor=&#39;middle&#39; font-family=&#39;Arial,sans-serif&#39; font-size=&#39;13&#39; font-weight=&#39;700&#39; fill=&#39;%23d8ef92&#39;%3EA9%3C/text%3E%3C/svg%3E"/>
-<meta name="description" content="Интерактивная 3D-демонстрация многофункционального спортивно-образовательного комплекса А9 Арена."/>
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#17211f">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%2317211f'/%3E%3Ctext x='16' y='21' text-anchor='middle' font-family='Arial,sans-serif' font-size='13' font-weight='700' fill='%23d8ef92'%3EA9%3C/text%3E%3C/svg%3E">
+<meta name="description" content="Интерактивная 3D-демонстрация многофункционального спортивно-образовательного комплекса А9 Арена.">
 <title>А9 Арена · 3D</title>
-<link rel="preload" href="./assets/A9_Arena_Hero.png" as="image"/>
-  <script type="module" crossorigin="" src="./assets/index-BWNonllU.js"></script>
-  <link rel="stylesheet" crossorigin="" href="./assets/index-BWUp-p44.css"/>
-<script src="https://www.kimi.ai/sdk-seed.js" defer="" data-kimi-disable-watermark="false" data-kimi-analytics="true" data-kimi-website-id="1a1c28f0-44e2-8e2a-8000-0000d297e6d8" data-kimi-website-env="published"></script></head>
+<link rel="preload" href="./assets/A9_Arena_Hero.png" as="image">
+  <script type="module" crossorigin src="./assets/index-DzfT_b0c.js"></script>
+  <link rel="stylesheet" crossorigin href="./assets/index-BWUp-p44.css">
+</head>
 <body>
 <div id="app">
   <div id="poster" aria-hidden="true"></div>
@@ -23,7 +25,7 @@
         <button class="stage-action" type="button" data-stage="stage2" aria-pressed="false">2 этап СМР</button>
       </div>
       <button id="budget-btn" class="budget-action" type="button" aria-haspopup="dialog" aria-controls="budget-dialog">
-        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 19V9m5 10V5m6 14v-7m5 7V3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"></path></svg>
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 19V9m5 10V5m6 14v-7m5 7V3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
         <span>Общий бюджет</span>
       </button>
     </nav>
@@ -31,24 +33,24 @@
 
   <aside class="tool-rail" aria-label="Инструменты 3D-просмотра">
     <button id="rotate-btn" class="tool-button" type="button" aria-label="Включить автоматическое вращение" aria-pressed="false" data-tooltip="Автовращение">
-      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M20 11a8 8 0 1 0-2 6M20 5v6h-6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M20 11a8 8 0 1 0-2 6M20 5v6h-6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
     </button>
     <button id="light-btn" class="tool-button" type="button" aria-label="Переключить на дневное освещение" aria-pressed="false" data-tooltip="День / вечер">
-      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="3.5" stroke="currentColor" stroke-width="1.6"></circle><path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.5 1.5m11 11L19 19M19 5l-1.5 1.5m-11 11L5 19" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"></path></svg>
+      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="3.5" stroke="currentColor" stroke-width="1.6"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.5 1.5m11 11L19 19M19 5l-1.5 1.5m-11 11L5 19" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
     </button>
     <button id="capture-btn" class="tool-button" type="button" aria-label="Сохранить текущий ракурс в PNG" data-tooltip="Снимок PNG">
-      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 7h4l1.5-2h5L16 7h4v12H4V7Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"></path><circle cx="12" cy="13" r="3.5" stroke="currentColor" stroke-width="1.6"></circle></svg>
+      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 7h4l1.5-2h5L16 7h4v12H4V7Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><circle cx="12" cy="13" r="3.5" stroke="currentColor" stroke-width="1.6"/></svg>
     </button>
     <button id="fullscreen-btn" class="tool-button" type="button" aria-label="Открыть на весь экран" data-tooltip="Полный экран">
-      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M8 3H3v5m13-5h5v5M3 16v5h5m13-5v5h-5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M8 3H3v5m13-5h5v5M3 16v5h5m13-5v5h-5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
     </button>
   </aside>
 
-  <aside id="object-info" class="object-info" aria-label="Технико-экономические показатели объекта" aria-live="polite" hidden="">
+  <aside id="object-info" class="object-info" aria-label="Технико-экономические показатели объекта" aria-live="polite" hidden>
     <div class="object-info-heading">
       <div><h2 id="object-info-title"></h2></div>
       <button id="object-info-close" class="object-info-close" type="button" aria-label="Скрыть технико-экономические показатели">
-        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"></path></svg>
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
       </button>
     </div>
     <dl class="object-metrics">
@@ -59,7 +61,7 @@
     <div class="object-budget">
       <div class="object-budget-main"><span>СМР · текущие цены</span><strong id="object-budget-current"></strong></div>
       <div class="object-budget-future"><span>I кв. 2027</span><span id="object-budget-future"></span></div>
-      <div id="object-budget-variant" class="object-budget-variant" hidden=""></div>
+      <div id="object-budget-variant" class="object-budget-variant" hidden></div>
     </div>
   </aside>
 
@@ -89,14 +91,14 @@
 
   <div id="loading" class="loading" role="status" aria-live="polite"><span id="loading-label">Подготовка 3D-сцены</span><span id="loading-value">0%</span><div class="loading-track"><div id="loading-bar"></div></div></div>
   <div id="toast" class="toast" role="status" aria-live="polite"></div>
-  <div id="error" class="error-panel" hidden=""><strong>3D-сцена недоступна</strong><p>Попробуйте обновить страницу или открыть сайт в другом браузере.</p></div>
+  <div id="error" class="error-panel" hidden><strong>3D-сцена недоступна</strong><p>Попробуйте обновить страницу или открыть сайт в другом браузере.</p></div>
 
   <dialog id="budget-dialog" class="budget-dialog" aria-labelledby="budget-title">
     <div class="budget-shell">
       <header class="budget-header">
         <div><h2 id="budget-title">Бюджет проекта</h2><p id="budget-subtitle">СМР и проектная документация · млн руб. с НДС</p></div>
         <button id="budget-close" class="budget-close" type="button" aria-label="Закрыть бюджет проекта">
-          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"></path></svg>
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
         </button>
       </header>
       <div class="budget-scroll">
@@ -125,27 +127,5 @@
     </div>
   </dialog>
 </div>
-
-
-<script>
-(function () {
-  function finishLoading() {
-    var l = document.getElementById('loading');
-    if (l && !l.classList.contains('done')) {
-      l.classList.add('done');
-      var ms = document.getElementById('model-status');
-      if (ms && ms.textContent.indexOf('Загрузка') !== -1) ms.textContent = 'Модель загружена';
-    }
-  }
-  var tries = 0;
-  var iv = setInterval(function () {
-    var v = document.getElementById('loading-value');
-    tries++;
-    if (window.__SCENE_READY__ || (v && v.textContent.trim() === '100%') || tries > 2400) {
-      clearInterval(iv);
-      setTimeout(finishLoading, 3000);
-    }
-  }, 100);
-})();
-</script>
-</body></html>
+</body>
+</html>

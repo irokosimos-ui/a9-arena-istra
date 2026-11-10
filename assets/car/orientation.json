@@ -1,0 +1,30 @@
+{
+  "schema": "asset-orientation/1",
+  "revision": "2026-10-13",
+  "itemId": "05-V1-0002",
+  "status": "unknown",
+  "referenceState": "parked",
+  "scope": "Whole-asset placement facing in the reference state; not the live direction of each articulated child.",
+  "source": {
+    "frame": "Exported source-scene coordinates, before loader conversion",
+    "upAxis": "+Z",
+    "forwardAxis": null,
+    "forwardVector": null
+  },
+  "placement": {
+    "Y": {
+      "upAxis": "+Y",
+      "forwardAxis": null,
+      "forwardVector": null
+    },
+    "Z": {
+      "upAxis": "+Z",
+      "forwardAxis": null,
+      "forwardVector": null
+    }
+  },
+  "defaultUpAxis": "Y",
+  "frameRule": "placement values are in an identity placement parent after createAsset up-axis conversion. They are NOT raw root-local vectors or world vectors after placement.",
+  "evidence": [],
+  "reason": "No unambiguous whole-asset forward declaration; do not infer one from bounding-box dimensions."
+}
