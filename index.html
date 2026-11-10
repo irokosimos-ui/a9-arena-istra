@@ -6,8 +6,8 @@
 <meta name="description" content="Интерактивная 3D-демонстрация многофункционального спортивно-образовательного комплекса А9 Арена."/>
 <title>А9 Арена · 3D</title>
 <link rel="preload" href="./assets/A9_Arena_Hero.png" as="image"/>
-  <script type="module" crossorigin="" src="./assets/index-Cr8ioqKq.js"></script>
-  <link rel="stylesheet" crossorigin="" href="./assets/index-B1az6aeA.css"/>
+  <script type="module" crossorigin="" src="./assets/index-DNzqzgo2.js"></script>
+  <link rel="stylesheet" crossorigin="" href="./assets/index-BWUp-p44.css"/>
 <script src="https://www.kimi.ai/sdk-seed.js" defer="" data-kimi-disable-watermark="false" data-kimi-analytics="true" data-kimi-website-id="1a1c28f0-44e2-8e2a-8000-0000d297e6d8" data-kimi-website-env="published"></script></head>
 <body>
 <div id="app">
@@ -17,7 +17,11 @@
 
   <header class="topbar">
     <div class="project-meta"><span>А9 АРЕНА</span><span class="meta-divider"></span><span>Истра · Покровское</span></div>
-    <nav class="top-actions" aria-label="Данные проекта">
+    <nav class="top-actions" aria-label="Этапы и бюджет проекта">
+      <div class="stage-actions" role="group" aria-label="Фильтр этапов строительства">
+        <button class="stage-action" type="button" data-stage="stage1" aria-pressed="false">1 этап СМР</button>
+        <button class="stage-action" type="button" data-stage="stage2" aria-pressed="false">2 этап СМР</button>
+      </div>
       <button id="budget-btn" class="budget-action" type="button" aria-haspopup="dialog" aria-controls="budget-dialog">
         <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 19V9m5 10V5m6 14v-7m5 7V3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"></path></svg>
         <span>Общий бюджет</span>
@@ -62,7 +66,7 @@
   <section class="project-caption" aria-labelledby="project-title">
     <h1 id="project-title">А9 <span>Арена</span></h1>
     <p>Многофункциональный спортивно-образовательный комплекс</p>
-    <div class="model-badges"><span>8 объектов</span><span>Ландшафт</span><span>Полная сцена</span></div>
+    <div class="model-badges"><span>9 объектов</span><span>350 машиномест</span><span>Полная сцена</span></div>
   </section>
 
   <div class="view-dock" role="group" aria-label="Общий вид и объекты проекта">
@@ -75,6 +79,7 @@
     <button class="view-button" type="button" data-view="padel" aria-pressed="false">Падел-центр</button>
     <button class="view-button" type="button" data-view="parking" aria-pressed="false">Подземный паркинг</button>
     <button class="view-button" type="button" data-view="water" aria-pressed="false" aria-label="Подземный водозаборный узел" title="Подземный водозаборный узел">Водозаборный узел</button>
+    <button class="view-button" type="button" data-view="boiler" aria-pressed="false" aria-label="Котельная на крыле кровли падел-центра" title="Котельная на крыле кровли падел-центра">Котельная</button>
   </div>
 
   <div class="scene-status" aria-live="polite">
@@ -89,7 +94,7 @@
   <dialog id="budget-dialog" class="budget-dialog" aria-labelledby="budget-title">
     <div class="budget-shell">
       <header class="budget-header">
-        <div><h2 id="budget-title">Бюджет проекта</h2><p>СМР и проектная документация · млн руб. с НДС</p></div>
+        <div><h2 id="budget-title">Бюджет проекта</h2><p id="budget-subtitle">СМР и проектная документация · млн руб. с НДС</p></div>
         <button id="budget-close" class="budget-close" type="button" aria-label="Закрыть бюджет проекта">
           <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"></path></svg>
         </button>
@@ -104,8 +109,8 @@
           </div>
         </section>
         <dl class="budget-summary">
-          <div><dt>СМР · текущие цены</dt><dd id="budget-total-current"></dd><span>млн руб. с НДС</span></div>
-          <div><dt>СМР · I кв. 2027</dt><dd id="budget-total-future"></dd><span>млн руб. с НДС</span></div>
+          <div><dt id="budget-current-label">СМР · текущие цены</dt><dd id="budget-total-current"></dd><span>млн руб. с НДС</span></div>
+          <div><dt id="budget-future-label">СМР · I кв. 2027</dt><dd id="budget-total-future"></dd><span>млн руб. с НДС</span></div>
           <div><dt>Проектная документация</dt><dd id="budget-total-docs"></dd><span>млн руб. с НДС</span></div>
         </dl>
         <section class="budget-table" aria-label="Детализация бюджета по объектам">
