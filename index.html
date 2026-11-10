@@ -1,0 +1,87 @@
+<!DOCTYPE html><html lang="ru"><head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<meta name="theme-color" content="#17211f"/>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=&#39;http://www.w3.org/2000/svg&#39; viewBox=&#39;0 0 32 32&#39;%3E%3Crect width=&#39;32&#39; height=&#39;32&#39; rx=&#39;7&#39; fill=&#39;%2317211f&#39;/%3E%3Ctext x=&#39;16&#39; y=&#39;21&#39; text-anchor=&#39;middle&#39; font-family=&#39;Arial,sans-serif&#39; font-size=&#39;13&#39; font-weight=&#39;700&#39; fill=&#39;%23d8ef92&#39;%3EA9%3C/text%3E%3C/svg%3E"/>
+<meta name="description" content="Интерактивная 3D-демонстрация многофункционального спортивно-образовательного комплекса А9 Арена."/>
+<title>А9 Арена · 3D</title>
+<link rel="preload" href="./assets/A9_Arena_Hero.png" as="image"/>
+  <script type="module" crossorigin="" src="./assets/index-x0-_fsx1.js"></script>
+  <link rel="stylesheet" crossorigin="" href="./assets/index-C2z8SIBk.css"/>
+<script src="https://www.kimi.ai/sdk-seed.js" defer="" data-kimi-disable-watermark="false" data-kimi-analytics="true" data-kimi-website-id="1a1c28f0-44e2-8e2a-8000-0000d297e6d8" data-kimi-website-env="published"></script></head>
+<body>
+<div id="app">
+  <div id="poster" aria-hidden="true"></div>
+  <div id="viewport" aria-label="Интерактивная 3D-модель А9 Арены" role="img"></div>
+  <div class="vignette" aria-hidden="true"></div>
+
+  <header class="topbar">
+    <div class="project-meta"><span>А9 АРЕНА</span><span class="meta-divider"></span><span>Истра · Покровское</span></div>
+    <nav class="top-actions" aria-label="Файлы проекта">
+      <a class="text-action" download="A9_Arena.glb" href="./assets/A9_Arena.glb" title="Скачать модель GLB">GLB</a>
+      <a class="download-action" download="A9_Arena.blend" href="./assets/A9_Arena.blend">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3v12m0 0 4-4m-4 4-4-4M5 17v3h14v-3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+        <span>Blender</span>
+      </a>
+    </nav>
+  </header>
+
+  <aside class="tool-rail" aria-label="Инструменты 3D-просмотра">
+    <button id="rotate-btn" class="tool-button" type="button" aria-label="Включить автоматическое вращение" aria-pressed="false" data-tooltip="Автовращение">
+      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M20 11a8 8 0 1 0-2 6M20 5v6h-6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+    </button>
+    <button id="light-btn" class="tool-button" type="button" aria-label="Переключить на дневное освещение" aria-pressed="false" data-tooltip="День / вечер">
+      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="3.5" stroke="currentColor" stroke-width="1.6"></circle><path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.5 1.5m11 11L19 19M19 5l-1.5 1.5m-11 11L5 19" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"></path></svg>
+    </button>
+    <button id="capture-btn" class="tool-button" type="button" aria-label="Сохранить текущий ракурс в PNG" data-tooltip="Снимок PNG">
+      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 7h4l1.5-2h5L16 7h4v12H4V7Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"></path><circle cx="12" cy="13" r="3.5" stroke="currentColor" stroke-width="1.6"></circle></svg>
+    </button>
+    <button id="fullscreen-btn" class="tool-button" type="button" aria-label="Открыть на весь экран" data-tooltip="Полный экран">
+      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M8 3H3v5m13-5h5v5M3 16v5h5m13-5v5h-5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+    </button>
+  </aside>
+
+  <aside id="object-info" class="object-info" aria-label="Технико-экономические показатели объекта" aria-live="polite" hidden="">
+    <div class="object-info-heading">
+      <div><h2 id="object-info-title"></h2></div>
+      <button id="object-info-close" class="object-info-close" type="button" aria-label="Скрыть технико-экономические показатели">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"></path></svg>
+      </button>
+    </div>
+    <dl class="object-metrics">
+      <div><dt id="object-area-label">Общая площадь</dt><dd id="object-area"></dd></div>
+      <div><dt id="object-floors-label">Этажность</dt><dd id="object-floors"></dd></div>
+      <div><dt id="object-footprint-label">Площадь застройки</dt><dd id="object-footprint"></dd></div>
+    </dl>
+  </aside>
+
+  <section class="project-caption" aria-labelledby="project-title">
+    <h1 id="project-title">А9 <span>Арена</span></h1>
+    <p>Многофункциональный спортивно-образовательный комплекс</p>
+    <div class="model-badges"><span>8 объектов</span><span>Ландшафт</span><span>Полная сцена</span></div>
+  </section>
+
+  <div class="view-dock" role="group" aria-label="Общий вид и объекты проекта">
+    <button class="view-button active" type="button" data-view="overview" aria-pressed="true">Общий вид</button>
+    <button class="view-button" type="button" data-view="ice" aria-pressed="false" aria-label="Здание многофункционального ледового комплекса" title="Здание многофункционального ледового комплекса">Ледовый комплекс</button>
+    <button class="view-button" type="button" data-view="wellness" aria-pressed="false" aria-label="Оздоровительный комплекс: бассейн, фитнес-центр, медицинский центр" title="Оздоровительный комплекс: бассейн, фитнес-центр, медицинский центр">Оздоровительный</button>
+    <button class="view-button" type="button" data-view="hotel" aria-pressed="false" aria-label="Гостиница 4 звезды с рестораном" title="Гостиница 4* с рестораном">Гостиница 4*</button>
+    <button class="view-button" type="button" data-view="apart" aria-pressed="false">Апарт-отель</button>
+    <button class="view-button" type="button" data-view="thermal" aria-pressed="false">Термальный комплекс</button>
+    <button class="view-button" type="button" data-view="padel" aria-pressed="false">Падел-центр</button>
+    <button class="view-button" type="button" data-view="parking" aria-pressed="false">Подземный паркинг</button>
+    <button class="view-button" type="button" data-view="water" aria-pressed="false" aria-label="Подземный водозаборный узел" title="Подземный водозаборный узел">Водозаборный узел</button>
+  </div>
+
+  <div class="scene-status" aria-live="polite">
+    <span class="status-dot"></span><span id="model-status">Загрузка модели</span><span class="status-separator">/</span><span id="model-stats">GLB · 54,2 МБ</span>
+  </div>
+  <div class="navigation-hint"><span>ЛКМ — вращение</span><span>Колесо — масштаб</span><span>ПКМ — панорама</span></div>
+
+  <div id="loading" class="loading" role="status" aria-live="polite"><span id="loading-label">Подготовка 3D-сцены</span><span id="loading-value">0%</span><div class="loading-track"><div id="loading-bar"></div></div></div>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <div id="error" class="error-panel" hidden=""><strong>3D-сцена недоступна</strong><p>Можно скачать исходник для Blender или модель GLB по ссылкам выше.</p></div>
+</div>
+
+
+</body></html>
