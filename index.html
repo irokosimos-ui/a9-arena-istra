@@ -7,9 +7,9 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%2317211f'/%3E%3Ctext x='16' y='21' text-anchor='middle' font-family='Arial,sans-serif' font-size='13' font-weight='700' fill='%23d8ef92'%3EA9%3C/text%3E%3C/svg%3E">
 <meta name="description" content="Интерактивная 3D-демонстрация многофункционального спортивно-образовательного комплекса А9 Арена.">
 <title>А9 Арена · 3D</title>
-<link rel="preload" href="./assets/A9_Arena_Hero.png" as="image">
-  <script type="module" crossorigin src="./assets/index-Dl_eXtWC.js?v=20261111-1"></script>
-  <link rel="stylesheet" crossorigin href="./assets/index-BWUp-p44.css">
+<link rel="preload" href="./assets/A9_Arena_Hero.png?v=20261111-3" as="image">
+  <script type="module" crossorigin src="./assets/index-Dl_eXtWC.js?v=20261111-3"></script>
+  <link rel="stylesheet" crossorigin href="./assets/index-BWUp-p44.css?v=20261111-3">
 </head>
 <body>
 <div id="app">
@@ -99,32 +99,27 @@
   <dialog id="budget-dialog" class="budget-dialog" aria-labelledby="budget-title">
     <div class="budget-shell">
       <header class="budget-header">
-        <div><h2 id="budget-title">Бюджет проекта</h2><p id="budget-subtitle">СМР и проектная документация · млн руб. с НДС</p></div>
+        <div><h2 id="budget-title">Бюджет реализации проекта А9 Арена</h2><p id="budget-subtitle">СМР + ПД · млн руб. с НДС</p></div>
         <button id="budget-close" class="budget-close" type="button" aria-label="Закрыть бюджет проекта">
           <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
         </button>
       </header>
       <div class="budget-scroll">
         <section class="budget-selector" aria-label="Вариант каркаса ледового комплекса">
-          <div class="budget-section-heading"><h3>Каркас ледового комплекса</h3><span>3 варианта</span></div>
+          <div class="budget-section-heading"><h3>Стоимость СМР + ПД по вариантам ЛА</h3><span>Текущие цены / I кв. 2027</span></div>
           <div class="budget-variants" role="group" aria-label="Выберите вариант каркаса">
-            <button class="budget-variant active" type="button" data-budget-variant="combined" aria-pressed="true"><span>Комбинированный</span><small>16–19 месяцев</small><strong data-variant-total="combined"></strong></button>
-            <button class="budget-variant" type="button" data-budget-variant="metal" aria-pressed="false"><span>Металлокаркас</span><small>14–16 месяцев</small><strong data-variant-total="metal"></strong></button>
-            <button class="budget-variant" type="button" data-budget-variant="concrete" aria-pressed="false"><span>Железобетон</span><small>20–24 месяца</small><strong data-variant-total="concrete"></strong></button>
+            <button class="budget-variant active" type="button" data-budget-variant="combined" aria-pressed="true"><span>Комбинированный каркас</span><small>16–19 месяцев</small><strong data-variant-total="combined"></strong><small data-variant-total-future="combined"></small></button>
+            <button class="budget-variant" type="button" data-budget-variant="metal" aria-pressed="false"><span>Металлокаркас</span><small>14–16 месяцев</small><strong data-variant-total="metal"></strong><small data-variant-total-future="metal"></small></button>
+            <button class="budget-variant" type="button" data-budget-variant="concrete" aria-pressed="false"><span>Железобетон</span><small>20–24 месяца</small><strong data-variant-total="concrete"></strong><small data-variant-total-future="concrete"></small></button>
           </div>
         </section>
-        <dl class="budget-summary">
-          <div><dt id="budget-current-label">СМР · текущие цены</dt><dd id="budget-total-current"></dd><span>млн руб. с НДС</span></div>
-          <div><dt id="budget-future-label">СМР · I кв. 2027</dt><dd id="budget-total-future"></dd><span>млн руб. с НДС</span></div>
-          <div><dt>Проектная документация</dt><dd id="budget-total-docs"></dd><span>млн руб. с НДС</span></div>
-        </dl>
-        <section class="budget-table" aria-label="Детализация бюджета по объектам">
+        <section class="budget-table" aria-label="Бюджет реализации проекта по этапам и справочным разделам">
           <div class="budget-table-head"><span>Объект</span><span>Текущие цены</span><span>I кв. 2027</span></div>
           <div id="budget-breakdown"></div>
         </section>
       </div>
       <footer class="budget-grand-total">
-        <div><strong>Всего с проектной документацией</strong><span>СМР + ПД и РД · млн руб. с НДС</span></div>
+        <div><strong>Итого СМР + ПД</strong><span id="budget-grand-variant">ЛА комбинированный каркас · млн руб. с НДС</span></div>
         <div class="budget-grand-values"><span><small>Текущие цены</small><strong id="budget-grand-current"></strong></span><span><small>I кв. 2027</small><strong id="budget-grand-future"></strong></span></div>
       </footer>
     </div>
