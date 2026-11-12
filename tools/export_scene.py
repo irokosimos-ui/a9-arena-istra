@@ -18,7 +18,48 @@ def principled(material):
     return next((node for node in material.node_tree.nodes if node.type == "BSDF_PRINCIPLED"), None)
 
 
+def bake_terrain_material():
+    obj = bpy.data.objects["Terrain"]
+    material = bpy.data.materials["РН_рельеф"]
+    tree = material.node_tree
+    shader = principled(material)
+    color_source = shader.inputs["Base Color"].links[0].from_socket
+    output = next(node for node in tree.nodes if node.type == "OUTPUT_MATERIAL")
+    original_surface = output.inputs["Surface"].links[0].from_socket
+    emission = tree.nodes.new("ShaderNodeEmission")
+    tree.links.new(color_source, emission.inputs["Color"])
+    tree.links.new(emission.outputs[0], output.inputs["Surface"])
+
+    image = bpy.data.images.new("A9_Terrain_Baked", width=3584, height=3072, alpha=False)
+    image.colorspace_settings.name = "sRGB"
+    texture = tree.nodes.new("ShaderNodeTexImage")
+    texture.image = image
+    for node in tree.nodes:
+        node.select = node == texture
+    tree.nodes.active = texture
+    bpy.ops.object.select_all(action="DESELECT")
+    obj.select_set(True)
+    bpy.context.view_layer.objects.active = obj
+    scene = bpy.context.scene
+    scene.render.engine = "CYCLES"
+    scene.cycles.samples = 1
+    scene.render.bake.margin = 8
+    bpy.ops.object.bake(type="EMIT")
+
+    image.filepath_raw = str(ASSETS / "terrain-arena-baked.png")
+    image.file_format = "PNG"
+    image.save()
+    image.pack()
+    tree.links.new(original_surface, output.inputs["Surface"])
+    tree.nodes.remove(emission)
+    for node in list(tree.nodes):
+        if node.type == "TEX_IMAGE" and node != texture:
+            tree.nodes.remove(node)
+    print(f"Terrain baked: {image.size[0]} × {image.size[1]}")
+
+
 def flatten_web_materials():
+    bake_terrain_material()
     flattened = []
     for material in bpy.data.materials:
         if not material.users:
@@ -28,12 +69,16 @@ def flatten_web_materials():
             continue
         base = shader.inputs["Base Color"]
         if base.links and base.links[0].from_node.type != "VERTEX_COLOR":
-            color = tuple(material.diffuse_color)
-            if material.name in {"РН_a9g", "РН_a9g_warm", "РН_a9sky"}:
-                color = (0.34, 0.26, 0.17, 1.0)
             for link in list(base.links):
                 material.node_tree.links.remove(link)
-            base.default_value = color
+            if material.name == "РН_рельеф":
+                texture = next(node for node in material.node_tree.nodes if node.type == "TEX_IMAGE" and node.image)
+                material.node_tree.links.new(texture.outputs["Color"], base)
+            else:
+                color = tuple(material.diffuse_color)
+                if material.name in {"РН_a9g", "РН_a9g_warm", "РН_a9sky"}:
+                    color = (0.34, 0.26, 0.17, 1.0)
+                base.default_value = color
             flattened.append(material.name)
         emission = shader.inputs.get("Emission Strength")
         if emission and emission.links:
@@ -192,7 +237,7 @@ bpy.ops.export_scene.gltf(
     export_yup=True,
     export_draco_mesh_compression_enable=True,
     export_draco_mesh_compression_level=6,
-    export_draco_position_quantization=14,
+    export_draco_position_quantization=20,
     export_draco_normal_quantization=10,
     export_draco_texcoord_quantization=12,
     export_draco_color_quantization=10,

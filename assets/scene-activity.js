@@ -333,41 +333,79 @@ function samplePath(path, distance) {
 }
 
 function createPeople(model, THREE) {
-  const routes = [
-    pathData({ left: [[53, -85], [72, -83], [83, -69], [74, -55], [55, -56], [47, -69], [53, -85]], right: [[55, -85], [74, -83], [85, -69], [76, -55], [57, -56], [49, -69], [55, -85]] }),
-    pathData({ left: [[58, -94], [58, -70], [59, -46], [58, -34]], right: [[62, -94], [62, -70], [63, -46], [62, -34]] }),
-    pathData({ left: [[39, -78], [48, -66], [60, -54], [73, -43]], right: [[41, -80], [50, -68], [62, -56], [75, -45]] }),
+  const paths = [
+    [[33.781, -75.643], [36.791, -70.961], [44.15, -65.108], [52.847, -61.987], [62.213, -61.206], [70.241, -65.498], [76.931, -74.082], [80.945, -83.447], [82.952, -90.47]],
+    [[82.952, -90.47], [80.61, -81.886], [80.276, -73.302], [81.948, -65.498], [84.29, -59.255]],
+    [[62.213, -61.206], [61.879, -63.313], [61.544, -57.851], [63.886, -52.778], [70.241, -50.203], [77.265, -52.388]],
+    [[81.948, -65.498], [86.297, -65.498], [91.649, -69.01], [98.004, -70.961]],
+    [[87.969, -48.486], [92.987, -46.145], [98.339, -45.365]],
   ];
+  const routes = paths.map((points) => pathData({ left: points, right: points }));
   const count = 22;
-  const bodies = new THREE.InstancedMesh(new THREE.CylinderGeometry(0.18, 0.24, 0.82, 8), new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.85 }), count);
-  const heads = new THREE.InstancedMesh(new THREE.SphereGeometry(0.16, 8, 6), new THREE.MeshStandardMaterial({ color: 0xc99d7c, roughness: 0.9 }), count);
-  bodies.name = "А9_Идущие_люди";
+  const cloth = new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.88 });
+  const skin = new THREE.MeshStandardMaterial({ color: 0xc99d7c, roughness: 0.9 });
+  const trousers = new THREE.MeshStandardMaterial({ color: 0x303b43, roughness: 0.92 });
+  const bodies = new THREE.InstancedMesh(new THREE.CylinderGeometry(0.16, 0.21, 0.55, 10), cloth, count);
+  const heads = new THREE.InstancedMesh(new THREE.SphereGeometry(0.135, 12, 8), skin, count);
+  const arms = new THREE.InstancedMesh(new THREE.CylinderGeometry(0.04, 0.045, 0.52, 8), cloth, count * 2);
+  const legs = new THREE.InstancedMesh(new THREE.CylinderGeometry(0.055, 0.065, 0.58, 8), trousers, count * 2);
+  bodies.name = "А9_Идущие_люди_туловища";
   heads.name = "А9_Идущие_люди_головы";
-  bodies.frustumCulled = heads.frustumCulled = false;
+  arms.name = "А9_Идущие_люди_руки";
+  legs.name = "А9_Идущие_люди_ноги";
+  const meshes = [bodies, heads, arms, legs];
+  meshes.forEach((mesh) => { mesh.frustumCulled = false; });
   const colors = [0x4f6d78, 0x8b594c, 0xbaa16d, 0x3e4a50, 0x6f7652, 0x805d75];
   const people = Array.from({ length: count }, (_, index) => ({
     route: routes[index % routes.length],
     phase: (index * 7.13) % routes[index % routes.length].total,
-    speed: 0.48 + (index % 5) * 0.09,
+    speed: 0.48 + (index % 5) * 0.07,
+    scale: 0.94 + (index % 4) * 0.035,
   }));
   const state = scratch(THREE);
+  const swingAxis = new THREE.Vector3(1, 0, 0);
+  const swingQuaternion = new THREE.Quaternion();
+  const setLimb = (mesh, index, position, scale, angle, swing) => {
+    state.position.set(...position);
+    state.scale.set(scale, scale, scale);
+    state.quaternion.setFromAxisAngle(state.axis, angle).multiply(swingQuaternion.setFromAxisAngle(swingAxis, swing));
+    state.matrix.compose(state.position, state.quaternion, state.scale);
+    mesh.setMatrixAt(index, state.matrix);
+  };
   const update = (time) => {
     people.forEach((person, index) => {
       const route = person.route;
       const distance = (person.phase + time * person.speed) % route.total;
       const point = samplePath(route, distance);
-      const bob = Math.sin(time * 7 + index) * 0.025;
-      const angle = -Math.atan2(point.tz, point.tx);
-      setInstance(bodies, index, THREE, [point.x, GROUND_Y + 1.01 + bob, point.z], [1, 1, 1], angle, state);
-      setInstance(heads, index, THREE, [point.x, GROUND_Y + 1.6 + bob, point.z], [1, 1, 1], angle, state);
-      bodies.setColorAt(index, new THREE.Color(colors[index % colors.length]));
+      const scale = person.scale;
+      const ground = 14.84;
+      const step = time * 5.6 * person.speed + index * 0.7;
+      const bob = Math.abs(Math.sin(step)) * 0.018;
+      const angle = Math.atan2(point.tx, point.tz);
+      const color = new THREE.Color(colors[index % colors.length]);
+      setInstance(bodies, index, THREE, [point.x, ground + 1.04 * scale + bob, point.z], [scale, scale, scale], angle, state);
+      setInstance(heads, index, THREE, [point.x, ground + 1.51 * scale + bob, point.z], [scale, scale, scale], angle, state);
+      bodies.setColorAt(index, color);
+      const cosine = Math.cos(angle);
+      const sine = Math.sin(angle);
+      for (const side of [-1, 1]) {
+        const limbIndex = index * 2 + (side === 1 ? 1 : 0);
+        const offsetX = cosine * side * 0.23 * scale;
+        const offsetZ = -sine * side * 0.23 * scale;
+        const swing = Math.sin(step) * 0.42 * side;
+        setLimb(arms, limbIndex, [point.x + offsetX, ground + 1.04 * scale + bob, point.z + offsetZ], scale, angle, -swing * 0.8);
+        setLimb(legs, limbIndex, [point.x + cosine * side * 0.09 * scale, ground + 0.38 * scale + bob, point.z - sine * side * 0.09 * scale], scale, angle, swing);
+        arms.setColorAt(limbIndex, color);
+      }
     });
-    bodies.instanceMatrix.needsUpdate = true;
-    heads.instanceMatrix.needsUpdate = true;
-    if (bodies.instanceColor) bodies.instanceColor.needsUpdate = true;
+    meshes.forEach((mesh) => {
+      mesh.instanceMatrix.needsUpdate = true;
+      if (mesh.instanceColor) mesh.instanceColor.needsUpdate = true;
+    });
   };
   update(0);
-  model.add(bodies, heads);
+  meshes.forEach((mesh) => finishInstances(mesh));
+  model.add(bodies, heads, arms, legs);
   return update;
 }
 
@@ -379,11 +417,8 @@ function createTraffic(model, THREE, infrastructure) {
   const detailMaterial = new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.48, metalness: 0.22 });
   const bodies = new THREE.InstancedMesh(new THREE.BoxGeometry(1, 1, 1), bodyMaterial, vehicleCount);
   const details = new THREE.InstancedMesh(new THREE.BoxGeometry(1, 1, 1), detailMaterial, vehicleCount);
-  const parkedBodies = new THREE.InstancedMesh(new THREE.BoxGeometry(1, 1, 1), bodyMaterial, 18);
-  const parkedDetails = new THREE.InstancedMesh(new THREE.BoxGeometry(1, 1, 1), detailMaterial, 18);
   bodies.name = "Транспорт_Движение_кузова";
   details.name = "Транспорт_Движение_детали";
-  parkedBodies.name = "А9_Надземные_парковки_автомобили";
   bodies.frustumCulled = details.frustumCulled = false;
   const colors = [0xd9d9d2, 0x8e2f2b, 0x273c50, 0x2e3335, 0x787e7d, 0xc3b69b, 0x385b4c];
   const vehicles = Array.from({ length: vehicleCount }, (_, index) => {
@@ -411,7 +446,7 @@ function createTraffic(model, THREE, infrastructure) {
       const laneOffset = vehicle.highway ? vehicle.lane * point.width / 4 : vehicle.lane * point.width * direction;
       const x = point.x + normalX * laneOffset;
       const z = point.z + normalZ * laneOffset;
-      const angle = -Math.atan2(point.tz * direction, point.tx * direction);
+      const angle = -Math.atan2(point.tz * direction, point.tx * direction) + Math.PI;
       setInstance(bodies, index, THREE, [x, GROUND_Y + 0.06, z], [1, 1, 1], angle, state);
       setInstance(details, index, THREE, [x, GROUND_Y + 0.06, z], [1, 1, 1], angle, state);
     });
@@ -421,24 +456,10 @@ function createTraffic(model, THREE, infrastructure) {
   const setAsset = (bodyGeometry, detailGeometry) => {
     bodies.geometry.dispose();
     details.geometry.dispose();
-    parkedBodies.geometry.dispose();
-    parkedDetails.geometry.dispose();
     bodies.geometry = bodyGeometry;
     details.geometry = detailGeometry;
-    parkedBodies.geometry = bodyGeometry;
-    parkedDetails.geometry = detailGeometry;
     vehicles.forEach((_, index) => bodies.setColorAt(index, new THREE.Color(colors[index % colors.length])));
-    const parked = [];
-    for (let i = 0; i < 10; i++) parked.push([-40 + i * 4, -139, Math.PI / 2]);
-    for (const x of [14, 29]) for (const z of [-6, 0, 6, 12]) parked.push([x, z, Math.PI / 2]);
-    parked.forEach(([x, z, angle], index) => {
-      setInstance(parkedBodies, index, THREE, [x, GROUND_Y + 0.06, z], [1, 1, 1], angle, state);
-      setInstance(parkedDetails, index, THREE, [x, GROUND_Y + 0.06, z], [1, 1, 1], angle, state);
-      parkedBodies.setColorAt(index, new THREE.Color(colors[(index + 3) % colors.length]));
-    });
-    finishInstances(parkedBodies);
-    finishInstances(parkedDetails);
-    model.add(parkedBodies, parkedDetails);
+    if (bodies.instanceColor) bodies.instanceColor.needsUpdate = true;
     update(0);
   };
   update(0);
@@ -458,6 +479,10 @@ export function enhanceUrbanEnvironment(model, THREE, buildings, infrastructure)
 export function createMotionSystem(model, THREE, infrastructure) {
   const updatePeople = createPeople(model, THREE);
   const traffic = createTraffic(model, THREE, infrastructure);
+  const staticRoadVehicles = [];
+  model.traverse((object) => {
+    if (/^GPU_Расстановка_(?:car_|van$|truck$)/.test(object.name)) staticRoadVehicles.push(object);
+  });
   let playing = false;
   let time = 0;
   let previous = performance.now();
@@ -473,11 +498,12 @@ export function createMotionSystem(model, THREE, infrastructure) {
     requestAnimationFrame(frame);
   };
   requestAnimationFrame(frame);
-  window.__A9_MOTION_STATE__ = { highwayVehicles: 50, cityVehicles: 16, walkingPeople: 22 };
+  window.__A9_MOTION_STATE__ = { highwayVehicles: 50, cityVehicles: 16, walkingPeople: 22, staticRoadVehicles: staticRoadVehicles.length };
   return {
     setAsset: traffic.setAsset,
     toggle() {
       playing = !playing;
+      staticRoadVehicles.forEach((object) => { object.visible = !playing; });
       previous = performance.now();
       window.__play?.();
       return playing;

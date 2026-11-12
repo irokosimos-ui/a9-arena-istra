@@ -1,4 +1,4 @@
-import { createMotionSystem, enhanceUrbanEnvironment } from "./scene-activity.js?v=2";
+import { createMotionSystem, enhanceUrbanEnvironment } from "./scene-activity.js?v=4";
 
 const GROUND_Y = 14.67;
 const MAP_WIDTH = 1120;
