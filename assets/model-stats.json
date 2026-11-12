@@ -1,14 +1,11 @@
 {
-  "mesh_objects": 766,
-  "converted_visible_curves": 5,
-  "triangles_instanced": 944291,
-  "vertices_instanced": 1460631,
-  "materials": 39,
-  "packed_images": 7,
-  "glb_bytes": 54248556,
-  "glb_mb": 54.2,
-  "blend_bytes": 36888154,
-  "source_mesh_objects": 762,
-  "source_curve_objects": 12,
-  "source_empty_objects": 9
+  "mesh_objects": 151,
+  "triangles_instanced": 7422244,
+  "materials": 73,
+  "packed_images": 0,
+  "gpu_instance_groups": 59,
+  "glb_bytes": 17319172,
+  "glb_mb": 17.3,
+  "blend_bytes": 91810387,
+  "source_mesh_objects": 151
 }

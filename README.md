@@ -14,16 +14,17 @@
 | `index.html` | страница вьювера |
 | `assets/index-Dl_eXtWC.js` | JS-бандл (Three.js) |
 | `assets/index-BWUp-p44.css` | стили |
-| `assets/scene-refinement.js` | единый терраин, окружение, материалы и наполнение площади |
+| `assets/scene-refinement.js` | освещение, материалы, окружение и подключение анимации |
 | `assets/scene-activity.js` | уличные подписи, ограждения, дворы, съезд, лестницы и анимация |
-| `assets/terrain-novaya-riga.png` | текстура покрытий центрального фрагмента 1,12 × 0,96 км |
-| `assets/environment-buildings.json` | посадка и параметры упрощённых зданий окружения |
-| `assets/infrastructure.json` | оси и кромки дорог, положения лесных деревьев |
-| `assets/A9_Arena_Hero.png` | постер-заставка |
-| `assets/A9_Arena.glb` | исходная 3D-модель, 54,2 МБ |
-| `assets/A9_Arena.blend` | исходник модели для Blender, 36,9 МБ |
+| `assets/terrain-novaya-riga.png` | текстура покрытий для прежней версии сцены |
+| `assets/environment-buildings.json` | параметры окружения прежней версии сцены |
+| `assets/infrastructure.json` | оси дорог для анимации транспорта |
+| `assets/A9_Arena_Hero.png` | постер-заставка обновлённой модели |
+| `assets/A9_Arena.glb` | 3D-модель из `untitled.blend`, 17,3 МБ, Draco + GPU-инстансы |
+| `assets/draco/` | локальные декодеры Draco и минимальный модуль Three.js r180 |
 | `assets/model-stats.json` | статистика исходной модели |
-| `tools/prepare_scene.py` | генерация текстуры терраина и параметров окружения из GLB |
+| `tools/export_scene.py` | экспорт Blender-сцены, сжатие и обновление частей GLB |
+| `tools/prepare_scene.py` | генерация текстуры терраина и параметров прежнего окружения из GLB |
 
 ## Запуск локально
 
@@ -34,14 +35,22 @@ python -m http.server 8000
 # затем открыть http://localhost:8000
 ```
 
+## Обновление 3D-модели
+
+```bash
+blender --background "путь/к/untitled.blend" --python tools/export_scene.py
+```
+
+Экспортёр сохраняет видимые объекты, преобразует Geometry Nodes в GPU-инстансы,
+подготавливает материалы для glTF и обновляет `model-stats.json` и части GLB.
+
 ## Публикация на GitHub Pages
 
 Репозиторий готов к GitHub Pages: все пути относительные.
 Settings → Pages → Source: Deploy from a branch → `main` / root.
-Сайт будет доступен по адресу `https://<ваш-логин>.github.io/a9-arena-istra/`.
+Сайт будет доступен по адресу `https://irokosimos-ui.github.io/a9-arena-istra/`.
 
-> Файлы `A9_Arena.glb` (54 МБ) и `A9_Arena.blend` (37 МБ) превышают рекомендуемый
-> лимит GitHub в 50 МБ, но ниже жёсткого лимита в 100 МБ — пуш пройдёт с предупреждением.
+GLB сжат до 17,3 МБ; декодеры Draco расположены локально и не требуют внешнего CDN.
 
 ## Источник
 

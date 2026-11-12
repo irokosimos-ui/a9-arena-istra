@@ -336,6 +336,19 @@ export async function refineArenaScene(model, context) {
   const { THREE, renderer, scene } = context;
   THREE.Up = new THREE.Vector3(0, 1, 0);
   addSkyEnvironment(scene, renderer, THREE);
+  if (model.getObjectByName("А9_01_Ледовая_арена")) {
+    improveArchitecture(model, THREE);
+    const infrastructure = await fetch("./assets/infrastructure.json").then((response) => {
+      if (!response.ok) throw new Error(`Infrastructure layout: ${response.status}`);
+      return response.json();
+    });
+    const motion = createMotionSystem(model, THREE, infrastructure);
+    window.__A9_TRAFFIC_ASSET__ = motion.setAsset;
+    window.__A9_MOTION__ = motion;
+    model.userData.refinement = { generatedDistrict: true, gpuInstances: true };
+    window.__A9_REFINEMENT__ = model.userData.refinement;
+    return model.getObjectByName("Terrain");
+  }
   const [terrainImage, buildings, infrastructure] = await Promise.all([
     loadImage("./assets/terrain-novaya-riga.png?v=2"),
     fetch("./assets/environment-buildings.json").then((response) => {
