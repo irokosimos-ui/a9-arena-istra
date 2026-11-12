@@ -1,4 +1,4 @@
-import { createMotionSystem, enhanceUrbanEnvironment } from "./scene-activity.js?v=4";
+import { createMotionSystem, enhanceUrbanEnvironment } from "./scene-activity.js?v=5";
 
 const GROUND_Y = 14.67;
 const MAP_WIDTH = 1120;
@@ -332,17 +332,35 @@ function addPlazaLife(model, THREE) {
   return { cafeTables: tablePositions.length, people: people.length };
 }
 
+function stabilizeSignMaterials(model) {
+  const materials = new Set();
+  model.traverse((object) => {
+    if (!object.isMesh || !object.material) return;
+    const list = Array.isArray(object.material) ? object.material : [object.material];
+    list.forEach((material) => materials.add(material));
+  });
+  materials.forEach((material) => {
+    if (!["РН_sign", "РН_a9_blue", "РН_a9_red", "РН_a9_white", "РН_mark"].includes(material.name)) return;
+    material.polygonOffset = true;
+    material.polygonOffsetFactor = -2;
+    material.polygonOffsetUnits = -2;
+    material.side = 0;
+    material.needsUpdate = true;
+  });
+}
+
 export async function refineArenaScene(model, context) {
   const { THREE, renderer, scene } = context;
   THREE.Up = new THREE.Vector3(0, 1, 0);
   addSkyEnvironment(scene, renderer, THREE);
   if (model.getObjectByName("А9_01_Ледовая_арена")) {
     improveArchitecture(model, THREE);
+    stabilizeSignMaterials(model);
     const infrastructure = await fetch("./assets/infrastructure.json").then((response) => {
       if (!response.ok) throw new Error(`Infrastructure layout: ${response.status}`);
       return response.json();
     });
-    const motion = createMotionSystem(model, THREE, infrastructure);
+    const motion = createMotionSystem(model, THREE, infrastructure, renderer);
     window.__A9_TRAFFIC_ASSET__ = motion.setAsset;
     window.__A9_MOTION__ = motion;
     model.userData.refinement = { generatedDistrict: true, gpuInstances: true };

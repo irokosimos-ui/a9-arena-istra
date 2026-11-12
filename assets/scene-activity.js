@@ -476,7 +476,7 @@ export function enhanceUrbanEnvironment(model, THREE, buildings, infrastructure)
   return { labels: labels.length, guardrailSegments, ...courtyards, urbanTrees, ...genplan };
 }
 
-export function createMotionSystem(model, THREE, infrastructure) {
+export function createMotionSystem(model, THREE, infrastructure, renderer) {
   const updatePeople = createPeople(model, THREE);
   const traffic = createTraffic(model, THREE, infrastructure);
   const staticRoadVehicles = [];
@@ -504,6 +504,7 @@ export function createMotionSystem(model, THREE, infrastructure) {
     toggle() {
       playing = !playing;
       staticRoadVehicles.forEach((object) => { object.visible = !playing; });
+      if (renderer) renderer.shadowMap.needsUpdate = true;
       previous = performance.now();
       window.__play?.();
       return playing;
