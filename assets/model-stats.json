@@ -1,11 +1,11 @@
 {
   "mesh_objects": 149,
-  "triangles_instanced": 7406905,
+  "triangles_instanced": 7294091,
   "materials": 73,
   "packed_images": 1,
   "gpu_instance_groups": 59,
-  "glb_bytes": 37538516,
-  "glb_mb": 37.5,
-  "blend_bytes": 91322306,
+  "glb_bytes": 36475988,
+  "glb_mb": 36.5,
+  "blend_bytes": 88235112,
   "source_mesh_objects": 149
 }

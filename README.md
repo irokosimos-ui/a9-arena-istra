@@ -21,7 +21,7 @@
 | `assets/infrastructure.json` | оси дорог для анимации транспорта |
 | `assets/A9_Arena_Hero.png` | сохранённый постер проекта; экран загрузки использует светлый фон |
 | `assets/terrain-arena-baked.png` | запечённый итог процедурного материала `РН_рельеф` |
-| `assets/A9_Arena.glb` | 3D-модель из `untitled.blend`, 37,5 МБ, Draco + GPU-инстансы |
+| `assets/A9_Arena.glb` | 3D-модель из `untitled.blend`, 36,5 МБ, Draco + GPU-инстансы |
 | `assets/draco/` | локальные декодеры Draco и минимальный модуль Three.js r180 |
 | `assets/model-stats.json` | статистика исходной модели |
 | `tools/export_scene.py` | экспорт Blender-сцены, сжатие и обновление частей GLB |
@@ -51,7 +51,7 @@ blender --background "путь/к/untitled.blend" --python tools/export_scene.py
 Settings → Pages → Source: Deploy from a branch → `main` / root.
 Сайт будет доступен по адресу `https://irokosimos-ui.github.io/a9-arena-istra/`.
 
-GLB сжат до 37,5 МБ; декодеры Draco расположены локально и не требуют внешнего CDN.
+GLB сжат до 36,5 МБ; декодеры Draco расположены локально и не требуют внешнего CDN.
 
 ## Источник
 
